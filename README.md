@@ -25,7 +25,7 @@ The numbers change every day because the forecast changes.
 No data files are needed, because the data comes straight from the API.
 
 ## How to run
-1. Install Python, then install the tools with `pip install requests pandas`
+1. Install Python, then install the tools with `pip install -r requirements.txt`
 2. Make sure you are connected to the internet
 3. Open the Code folder and run python weather_pipeline.py from there
 
