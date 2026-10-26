@@ -23,7 +23,7 @@ def transform(df, city):
         "temperature_2m_min" : "min_temp"
     })
     df["avg_temp"] = ((df["max_temp"] + df["min_temp"])/2).round(1)
-    df["city"] = city
+    df["city"] = city.title()
     return df
 
 def load(df):
