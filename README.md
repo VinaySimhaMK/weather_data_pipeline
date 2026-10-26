@@ -7,6 +7,7 @@ A small data pipeline built with Python, pandas and SQLite. It fetches a 7-day w
 2. **Transform:** renames the columns, calculates the average temperature for each day, and adds a `city` column
 3. **Load:** stacks the data for all cities into one table and saves it into a SQLite database (`weather.db`, table `daily_weather`)
 4. **Check:** runs a SQL query on the database to get each city's average temperature for the week
+5. The pipeline writes time-stamped log messages for each step. If one city's request fails, it logs an error for that city and carries on with the rest.
 
 ## Example output
 The numbers change every day because the forecast changes.
