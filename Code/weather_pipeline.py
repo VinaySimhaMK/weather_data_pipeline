@@ -1,6 +1,13 @@
 import requests
 import pandas as pd 
 import sqlite3
+import logging
+
+logging.basicConfig(
+    level = logging.INFO,
+    format = "%(asctime)s - %(levelname)s - %(message)s",
+    datefmt = "%Y-%m-%d %H:%M:%S"
+)
 
 def extract(latitude, longitude):
     url = "https://api.open-meteo.com/v1/forecast"
@@ -23,14 +30,14 @@ def transform(df, city):
         "temperature_2m_min" : "min_temp"
     })
     df["avg_temp"] = ((df["max_temp"] + df["min_temp"])/2).round(1)
-    df["city"] = city.title()
+    df["city"] = city
     return df
 
 def load(df):
     conn = sqlite3.connect("weather.db")
     df.to_sql("daily_weather",conn,if_exists="replace",index=False)
     conn.close()
-    print("Saved", len(df), "rows to weather.db")
+    logging.info("Saved %d rows to weather.db", len(df))
 
 def check_db():
     conn = sqlite3.connect("weather.db")
@@ -49,12 +56,20 @@ def main():
 
     all_weather = []
     for city in cities:
-        latitude = cities[city][0]
-        longitude = cities[city][1]
-        raw = extract(latitude, longitude)
-        clean = transform(raw, city)
-        all_weather.append(clean)
+        logging.info("Extracting weather for %s", city.title())
+        try:
+            latitude = cities[city][0]
+            longitude = cities[city][1]
+            raw = extract(latitude, longitude)
+            clean = transform(raw, city)
+            all_weather.append(clean)
+        except Exception as error:
+            logging.error("Could not get weather for %s: %s", city.title(), error)
 
+    if len(all_weather) == 0:
+        logging.error("No data was collected, nothing to save")
+        return
+        
     combined = pd.concat(all_weather)
     load(combined)
     check_db()
