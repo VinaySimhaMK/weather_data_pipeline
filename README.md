@@ -39,3 +39,5 @@ Python, requests, pandas, SQLite, Open-Meteo API
 
 ## Author
 Vinay Simha M K
+
+Weather data by [Open-Meteo.com](https://open-meteo.com)
