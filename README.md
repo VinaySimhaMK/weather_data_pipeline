@@ -13,9 +13,9 @@ The numbers change every day because the forecast changes.
 
     Saved 21 rows to weather.db
             city  week_avg
-    0  bangalore      24.6
-    1    chennai      28.9
-    2  hyderabad      27.3
+    0  Bangalore      24.6
+    1    Chennai      28.9
+    2  Hyderabad      27.3
 
 21 rows means 7 days for each of 3 cities.
 
@@ -27,7 +27,7 @@ No data files are needed, because the data comes straight from the API.
 ## How to run
 1. Install Python, then install the tools with `pip install requests pandas`
 2. Make sure you are connected to the internet
-3. Run `python weather_pipeline.py`
+3. Open the Code folder and run python weather_pipeline.py from there
 
 The database file `weather.db` is created when the pipeline runs. It isn't included in this repository.
 
