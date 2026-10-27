@@ -35,9 +35,15 @@ def transform(df, city):
 
 def load(df):
     conn = sqlite3.connect("weather.db")
-    df.to_sql("daily_weather",conn,if_exists="replace",index=False)
+    try:
+        old = pd.read_sql("SELECT * FROM daily_weather", conn)
+        df = pd.concat([old, df])
+    except Exception:
+        logging.info("No old data found, starting a new table")
+    df = df.drop_duplicates(subset=["date", "city"], keep="last")
+    df.to_sql("daily_weather", conn, if_exists="replace", index=False)
     conn.close()
-    logging.info("Saved %d rows to weather.db", len(df))
+    logging.info("Table now holds %d rows", len(df))
 
 def check_db():
     conn = sqlite3.connect("weather.db")
@@ -45,6 +51,8 @@ def check_db():
     FROM daily_weather
     GROUP BY city"""
     print(pd.read_sql(query, conn))
+    count = pd.read_sql("SELECT COUNT(*) AS rows_in_table FROM daily_weather", conn)
+    print(count)
     conn.close()
 
 def main():
