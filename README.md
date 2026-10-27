@@ -12,7 +12,7 @@ A small data pipeline built with Python, pandas and SQLite. It fetches a 7-day w
 ## Example output
 The numbers change every day because the forecast changes.
 
-    Saved 21 rows to weather.db
+    Table now holds 21 rows
             city  week_avg
     0  Bangalore      24.6
     1    Chennai      28.9
